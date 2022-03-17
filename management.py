@@ -1,4 +1,3 @@
-from flask import Flask, request, jsonify
 import json
 from spartan import Spartan
 
@@ -6,6 +5,19 @@ all_spartans_db = {}
 spartans_counter = 0
 
 
+def spartan_info(spartan_id_to_display):
+    global all_spartans_db
+    load_db_from_file()
+    temp_spartans_db = {}
+    for sparta_id in all_spartans_db:
+        spartan_object = all_spartans_db[sparta_id]
+        spartans_dict = vars(spartan_object)
+        temp_spartans_db[sparta_id] = spartans_dict
+        int_id = int(spartan_id_to_display)
+    if int_id in temp_spartans_db:
+        return temp_spartans_db[int_id]
+    else:
+        return f"ID: {int_id} was not found in the database."
 
 
 def display_db():
@@ -13,7 +25,7 @@ def display_db():
     global spartans_counter
     temp_db = {}
     try:
-        with open("spartans_db.json", "r") as db_file:
+        with open("data.json", "r") as db_file:
             temp_db = json.load(db_file)
     except FileNotFoundError as file_not_found_error:
         print(file_not_found_error)
@@ -26,7 +38,7 @@ def load_db_from_file():
     global spartans_counter
     temp_db = {}
     try:
-        with open("spartans_db.json", "r") as db_file:
+        with open("data.json", "r") as db_file:
             temp_db = json.load(db_file)
     except FileNotFoundError as file_not_found_error:
         print(file_not_found_error)
@@ -48,4 +60,3 @@ def load_db_from_file():
 
     # Counter set at database size, to avoid ID overlapping
     spartans_counter = len(all_spartans_db)
-
