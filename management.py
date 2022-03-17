@@ -20,6 +20,18 @@ def spartan_info(spartan_id_to_display):
         return f"ID: {int_id} was not found in the database."
 
 
+def add_to_db(spartan):
+    global all_spartans_db
+    all_spartans_db[spartan.get_sparta_id()] = spartan
+    return "entry saved"
+
+
+def check_id_in_db(id_to_check):
+    global all_spartans_db
+    load_db_from_file()
+    return id_to_check in all_spartans_db.keys()
+
+
 def display_db():
     global all_spartans_db
     global spartans_counter
@@ -30,6 +42,22 @@ def display_db():
     except FileNotFoundError as file_not_found_error:
         print(file_not_found_error)
     return temp_db
+
+
+def save_db_as_json():
+    global all_spartans_db
+    load_db_from_file()
+    temp_all_spartans_db = {}
+
+    # Convert spartan object to dictionary
+    for spartan_id in all_spartans_db:
+        spartan_object = all_spartans_db[spartan_id]
+        spartan_dict = vars(spartan_object)
+        temp_all_spartans_db[spartan_id] = spartan_dict
+    with open("data.json", "w") as db_file:
+        json.dump(temp_all_spartans_db, db_file)
+
+    print("Saving data to , data.json")
 
 
 # Function used to load DB from JSON file
