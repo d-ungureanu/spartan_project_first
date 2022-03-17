@@ -50,10 +50,10 @@ def spartan_add():
     else:
         return "ERROR: Stream's name should have at least 3 characters."
 
-    if management.check_id_in_db(spartan_data["ids"]):
+    if management.check_id_in_db(spartan_data["sparta_id"]):
         return "ID already in database."
     else:
-        s_id = spartan_data["ids"]
+        s_id = spartan_data["sparta_id"]
     temp_spartan = Spartan(s_id, s_fn, s_ln, s_bd, s_bm, s_by, s_co, s_st)
     management.add_to_db(temp_spartan)
     management.save_db_as_json()
@@ -68,8 +68,13 @@ def spartan_getter(spartan_id):
 
 @app.route("/spartan/remove", methods=["POST"])
 def remove_spartan():
-    id_var = request.args.get("id")
-    return f"Remove spartan with ID: {id_var}."
+    id_var = int(request.args.get("id"))
+    management.load_db_from_file()
+    management.delete_from_db(id_var)
+
+    management.save_db_as_json()
+
+    return f"Entry with ID: {id_var} deleted from database."
 
 
 @app.route("/spartan", methods=["GET"])

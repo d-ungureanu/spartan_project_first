@@ -44,9 +44,17 @@ def display_db():
     return temp_db
 
 
+def delete_from_db(id_to_delete):
+    global all_spartans_db
+    if id_to_delete in all_spartans_db.keys():
+        del all_spartans_db[id_to_delete]
+        return f"Deleted entry with ID: {all_spartans_db.keys()}"
+    else:
+        return f"ID: {id_to_delete} not in database."
+
+
 def save_db_as_json():
     global all_spartans_db
-    load_db_from_file()
     temp_all_spartans_db = {}
 
     # Convert spartan object to dictionary
@@ -57,7 +65,7 @@ def save_db_as_json():
     with open("data.json", "w") as db_file:
         json.dump(temp_all_spartans_db, db_file)
 
-    print("Saving data to , data.json")
+    print("Saving data to data.json")
 
 
 # Function used to load DB from JSON file
@@ -73,7 +81,7 @@ def load_db_from_file():
 
     # Convert dictionary data to Employee object
     for key_id in temp_db:
-        spartan_id = temp_db[key_id]["ids"]
+        spartan_id = temp_db[key_id]["sparta_id"]
         spartan_fn = temp_db[key_id]["first_name"]
         spartan_ln = temp_db[key_id]["last_name"]
         spartan_bd = temp_db[key_id]["birth_day"]
