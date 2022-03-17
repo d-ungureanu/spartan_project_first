@@ -26,7 +26,8 @@ def spartan_add():
 
 @app.route("/spartan/<spartan_id>", methods=["GET"])
 def spartan_getter(spartan_id):
-    return f"You are asking about spartan with ID: {spartan_id}"
+    data = management.spartan_info(spartan_id)
+    return data
 
 
 @app.route("/spartan/remove", methods=["POST"])
@@ -35,7 +36,7 @@ def remove_spartan():
     return f"Remove spartan with ID: {id_var}."
 
 
-@app.route("/spartans", methods=["GET"])
+@app.route("/spartan", methods=["GET"])
 def list_spartans():
     spartans_db = management.display_db()
     return spartans_db
