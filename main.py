@@ -31,8 +31,8 @@ This API should return the spartan list as one JSON object."""
 
 @app.route("/spartan/add", methods=["POST"])
 def spartan_add():
-    management.add_to_db()
-    return "Entry saved."
+    result = management.add_to_db()
+    return f"{result}"
 
 
 @app.route("/spartan/<spartan_id>", methods=["GET"])
@@ -44,8 +44,8 @@ def spartan_getter(spartan_id):
 @app.route("/spartan/remove", methods=["POST"])
 def remove_spartan():
     id_var = int(request.args.get("id"))
-    management.delete_from_db(id_var)
-    return f"Entry with ID: {id_var} deleted from database."
+    result = management.delete_from_db(id_var)
+    return f"{result}"
 
 
 @app.route("/spartan", methods=["GET"])
